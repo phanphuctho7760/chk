@@ -5,6 +5,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 	"time"
 )
 
@@ -25,7 +26,9 @@ func Init(dbInfo string) *gorm.DB {
 
 	DbGorm, err = gorm.Open(mysql.New(mysql.Config{
 		Conn: dbBuiltin,
-	}), &gorm.Config{})
+	}), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Info),
+	})
 	if err != nil {
 		panic("failed to connect gorm database")
 	}

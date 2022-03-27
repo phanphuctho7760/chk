@@ -13,7 +13,8 @@ const tableName = "price_histories"
 
 func (receiver PriceHistoryRepository) Create(data interface{}) models.Result {
 	priceHistoryModel := new(models.PriceHistory)
-	resultCreate := priceHistoryModel.Conn().Table(tableName).Create(data)
+	maxBatchSize := 1000
+	resultCreate := priceHistoryModel.Conn().Table(tableName).CreateInBatches(data, maxBatchSize)
 
 	return models.Result{
 		StatusCode: "success",
